@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from handlers.handlers import post_register_user, post_logout
+from handlers.handlers import post_register_user, post_logout, post_login_user
 from helpers import generate_random_string
 
 
@@ -30,6 +30,25 @@ def register_new_user_and_return_login_password_and_logout():
 
     if response.status_code == 200:
          return body
+
+
+@pytest.fixture(scope="function")
+@allure.step(f'Регистрация пользователя и авторизация')
+def register_new_user_and_login():
+    body_on_register = {
+        "email": f'{generate_random_string(10)}@yandex.ru',
+        "password": generate_random_string(10),
+        "name": generate_random_string(10),
+    }
+    body_on_login = {
+        "email": body_on_register['email'],
+        "password": body_on_register['password']
+    }
+
+    register_response = post_register_user(body=body_on_register)
+
+    if register_response.status_code == 200:
+         return post_login_user(body=body_on_login).json()['accessToken']
 
 
 @pytest.fixture(scope="function")

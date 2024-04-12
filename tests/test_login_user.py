@@ -4,7 +4,7 @@ from handlers.handlers import post_login_user
 
 @allure.epic("HTTP")
 @allure.feature("auth/login")
-@allure.suite('Проверка ручку логина пользователя')
+@allure.suite('Проверка ручки логина пользователя')
 class TestLoginUser:
 
     @allure.title(f'Проверяем логина пользователя')

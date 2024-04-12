@@ -13,18 +13,18 @@ def post_login_user(body: dict):
 
 
 @allure.step(f'Дергаем ручку auth/user')
-def patch_user_info(body: dict):
-    return requests.patch('https://stellarburgers.nomoreparties.site/api/auth/user', data=body)
+def patch_user_info(body: dict, headers: dict):
+    return requests.patch('https://stellarburgers.nomoreparties.site/api/auth/user', data=body, headers=headers)
 
 
 @allure.step(f'Дергаем ручку api/orders')
-def post_user_order(body: dict):
-    return requests.post('https://stellarburgers.nomoreparties.site/api/orders', data=body)
+def post_user_order(body: dict, headers: dict):
+    return requests.post('https://stellarburgers.nomoreparties.site/api/orders', data=body, headers=headers)
 
 
 @allure.step(f'Дергаем ручку api/orders')
-def get_user_order(body: dict):
-    return requests.get('https://stellarburgers.nomoreparties.site/api/orders', data=body)
+def get_user_order(headers: dict):
+    return requests.get('https://stellarburgers.nomoreparties.site/api/orders', headers=headers)
 
 
 @allure.step(f'Дергаем ручку api/ingredients')

@@ -4,7 +4,7 @@ from handlers.handlers import post_register_user
 
 @allure.epic("HTTP")
 @allure.feature("auth/register")
-@allure.suite('Проверка ручку регистрацию пользователя')
+@allure.suite('Проверка ручки регистрацию пользователя')
 class TestCreatingUser:
 
     @allure.title(f'Проверяем регистрацию пользователя')
