@@ -23,14 +23,14 @@ class TestChangeUserDatar:
     def test_change_user_email_for_authorised_user(
             self,
             register_new_user_and_login: str,
-            generate_and_return_login_password: dict
+            return_login_password: dict
     ):
         response = patch_user_info(
-            body={'email': generate_and_return_login_password['email']},
+            body={'email': return_login_password['email']},
             headers={'Authorization': register_new_user_and_login}
         )
         assert response.ok
-        assert response.json()['user']['email'] == generate_and_return_login_password['email']
+        assert response.json()['user']['email'] == return_login_password['email']
 
     @allure.title(f'Проверяем смену имени для не авторизированного пользователя ')
     def test_change_user_name_for_not_authorised_user(
@@ -45,8 +45,8 @@ class TestChangeUserDatar:
     def test_change_user_email_for_not_authorised_user(
             self,
             register_new_user_and_login: str,
-            generate_and_return_login_password: dict
+            return_login_password: dict
     ):
-        response = patch_user_info(body={'email': generate_and_return_login_password['email']}, headers={})
+        response = patch_user_info(body={'email': return_login_password['email']}, headers={})
         assert response.status_code == 401
         assert response.json()['message'] == 'You should be authorised'

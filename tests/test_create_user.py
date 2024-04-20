@@ -10,12 +10,12 @@ class TestCreatingUser:
     @allure.title(f'Проверяем регистрацию пользователя')
     def test_register_new_user(
             self,
-            generate_and_return_login_password: dict
+            return_login_password: dict
     ):
         body = {
-            "email": generate_and_return_login_password["email"],
-            "password": generate_and_return_login_password["password"],
-            "name": generate_and_return_login_password["name"]
+            "email": return_login_password["email"],
+            "password": return_login_password["password"],
+            "name": return_login_password["name"]
         }
         response = post_register_user(body=body)
 
@@ -25,9 +25,9 @@ class TestCreatingUser:
     @allure.title(f'Проверяем регистрацию уже зарегестрированного пользователя')
     def test_error_register_alredy_registered_user(
             self,
-            register_new_user_and_return_login_password_and_logout: dict
+            register_new_user_and_return_login_password: dict
     ):
-        response = post_register_user(body=register_new_user_and_return_login_password_and_logout)
+        response = post_register_user(body=register_new_user_and_return_login_password)
 
         assert response.status_code == 403
         assert response.json()['message'] == 'User already exists'
@@ -35,12 +35,12 @@ class TestCreatingUser:
     @allure.title(f'Проверяем регистрацию пользователя с пустым важным полем')
     def test_error_register_new_user_with_null_password(
             self,
-            generate_and_return_login_password: dict
+            return_login_password: dict
     ):
         body = {
-            "email": generate_and_return_login_password["email"],
+            "email": return_login_password["email"],
             "password": None,
-            "name": generate_and_return_login_password["name"]
+            "name": return_login_password["name"]
         }
         response = post_register_user(body=body)
         assert response.status_code == 403

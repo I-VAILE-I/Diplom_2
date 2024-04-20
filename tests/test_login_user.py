@@ -10,11 +10,11 @@ class TestLoginUser:
     @allure.title(f'Проверяем логина пользователя')
     def test_login_registered_user(
             self,
-            register_new_user_and_return_login_password_and_logout: dict
+            register_new_user_and_return_login_password: dict
     ):
         body = {
-            "email": register_new_user_and_return_login_password_and_logout["email"],
-            "password": register_new_user_and_return_login_password_and_logout["password"]
+            "email": register_new_user_and_return_login_password["email"],
+            "password": register_new_user_and_return_login_password["password"]
         }
         response = post_login_user(body=body)
 

@@ -5,8 +5,7 @@ from handlers.handlers import post_register_user, post_logout, post_login_user
 from helpers import generate_random_string
 
 
-@pytest.fixture(scope="function")
-@allure.step(f'Подготавливаем словарь с данными для создания курьера')
+@allure.step(f'Генерируем данные пользователя')
 def generate_and_return_login_password():
     login_pass = {
         "email": f'{generate_random_string(10)}@yandex.ru',
@@ -17,29 +16,15 @@ def generate_and_return_login_password():
 
 
 @pytest.fixture(scope="function")
-@allure.step(f'Регистрация пользователя и выход из системы')
-def register_new_user_and_return_login_password_and_logout():
-    body = {
-        "email": f'{generate_random_string(10)}@yandex.ru',
-        "password": generate_random_string(10),
-        "name": generate_random_string(10),
-    }
-
-    response = post_register_user(body=body)
-    post_logout(body={'token': response.json()['refreshToken']})
-
-    if response.status_code == 200:
-         return body
+@allure.step(f'Подготавливаем словарь с данными для создания курьера')
+def return_login_password():
+    return generate_and_return_login_password()
 
 
 @pytest.fixture(scope="function")
 @allure.step(f'Регистрация пользователя и авторизация')
 def register_new_user_and_login():
-    body_on_register = {
-        "email": f'{generate_random_string(10)}@yandex.ru',
-        "password": generate_random_string(10),
-        "name": generate_random_string(10),
-    }
+    body_on_register = generate_and_return_login_password()
     body_on_login = {
         "email": body_on_register['email'],
         "password": body_on_register['password']
@@ -54,11 +39,7 @@ def register_new_user_and_login():
 @pytest.fixture(scope="function")
 @allure.step(f'Регистрация пользователя')
 def register_new_user_and_return_login_password():
-    body = {
-        "email": f'{generate_random_string(10)}@yandex.ru',
-        "password": generate_random_string(10),
-        "name": generate_random_string(10),
-    }
+    body = generate_and_return_login_password()
 
     response = post_register_user(body=body)
 
